@@ -67,7 +67,6 @@ echo - Autoriser serveur http : [OK]
 # FTP
 iptables -t filter -A INPUT -p tcp --dport 20 -j ACCEPT
 iptables -t filter -A INPUT -p tcp --dport 21 -j ACCEPT
-iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 echo - Autoriser serveur FTP : [OK]
 
 # Mail
