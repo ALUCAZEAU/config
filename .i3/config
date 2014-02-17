@@ -1,0 +1,143 @@
+# 
+
+set $mod Mod4
+set $ALT Mod1
+
+# ======================================================================
+# Couleurs principales police de caracteres
+# ======================================================================
+# Couleurs barre de titre et contour des fenetres
+set $blue #005588
+set $gray1 #484848
+set $gray2 #333333
+
+# Couleur des fenetres avec et sans focus
+client.focused            $gray1   $gray1   #FFFFFF   #333333
+client.focused_inactive   $gray2   $gray2   #FFFFFF   #000000
+client.unfocused          $gray2   $gray2   #FFFFFF   #000000
+
+# Police de caracteres pour les titres des fenetres. ISO 10646 = Unicode
+font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+
+# ======================================================================
+# Gestion des fenetres
+# ======================================================================
+# Redimensionnement de fenetres
+mode "resize" {
+        bindsym h   resize shrink width 10 px or 10 ppt
+        bindsym j   resize grow height 10 px or 10 ppt
+        bindsym k   resize shrink height 10 px or 10 ppt
+        bindsym l   resize grow width 10 px or 10 ppt
+
+        # Retour au mode normal: Enter ou Escape ou q ou ^[
+        bindsym Return mode "default"
+        bindsym q mode "default"
+        bindsym Escape mode "default"
+        bindcode Control+34 mode "default"
+}
+bindsym $mod+s mode "resize"
+
+# ======================================================================
+# Raccourcis pour la gestion de i3 en mode tilling
+# ======================================================================
+# Tue la fenetre avec le focus
+bindsym $mod+Shift+A kill
+
+# Change la fenetre ayant le focus
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Met la fenetre avec le focus en mode plein écran
+bindsym $mod+f fullscreen
+
+# Deplacement entre les bureaux
+bindsym $mod+ampersand workspace 1:web
+bindsym $mod+eacute workspace 2:console
+bindsym $mod+quotedbl workspace 3:media
+bindsym $mod+apostrophe workspace 4
+bindsym $mod+parenleft workspace 5
+bindsym $mod+minus workspace 6
+bindsym $mod+egrave workspace 7
+bindsym $mod+underscore workspace 8
+bindsym $mod+ccedilla workspace 9
+bindsym $mod+agrave workspace 10
+
+# Déplcement de la fenetre ayant le focus d'un bureau à l'autre
+bindsym $mod+Shift+1 move container to workspace 1:web
+bindsym $mod+Shift+2 move container to workspace 2:console
+bindsym $mod+Shift+3 move container to workspace 3:media
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# Recharge le fichier de configuration
+bindsym $mod+Shift+C reload
+
+# Redemarre i3 mais concerve ce qui est lancé. Utilisable pour les MAJ
+bindsym $mod+Shift+R restart
+
+# sort d'i3 
+bindsym $mod+Shift+E exit
+
+# lance dmenu (le lanceur de pgm. la barre de dmenu est noir)
+bindsym $mod+Shift+d exec dmenu_run -nb black
+
+# ======================================================================
+# La barre conky
+# ======================================================================
+bar {
+        position top
+        status_command ~/.i3/conky
+        colors { 
+                statusline #AAAAAA
+                background #333333
+                focused_workspace $gray2 $gray2 #FFFFFF
+                inactive_workspace $gray1 $gray1 #AAAAAA
+        }
+}
+
+# ======================================================================
+# Raccourci pour les appli
+# ======================================================================
+# alt+win+l : verouille la session, image de :
+# http://www.deviantart.com/#/art/Coffee-time-402618002?hf=1
+bindsym $mod+$ALT+l exec i3lock -ti ~/images/coffee_time.png
+
+# blocage automatique de l'ecran en cas d'inactivité
+exec xautolock -detectsleep -locker 'i3lock -ti ~/images/coffee_time.png'
+
+# Capture d'ecran
+bindsym Print 'scrot -d 5'
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+b exec iceweasel
+bindsym $mod+v exec vlc
+bindsym $mod+c exec calibre
+bindsym $mod+d exec dolphin
+bindsym $mod+m exec "i3-sensible-terminal -e cmus"
+bindsym $mod+a exec i3-sensible-terminal "-e alsamixer"
+#bindsym $mod+Shift+a exec "pavucontrol"
+
+# lancer les applications
+  #bindsym Control+Alt+b exec iceweasel
+  #bindsym Control+Alt+v exec vlc
+  #bindsym Control+Alt+l exec libreoffice
+  #bindsym Control+Alt+c exec calibre
+#  bindsym Pause exec wicd-client # gestionnaire wifi
+  
+  # Assigne les applications aux workspaces
+  assign [class="iceweasel"] 1:web
+  assign [class="vlc"] 3:media
+  assign [class="Rednotebook"] 7:diary
+  
+  # programmes au démarrage
+#  exec parcellite # clipborad manager
+  exec nitrogen --restore # Affiche images en background
+
