@@ -40,7 +40,6 @@ echo - Interdire toute connexion entrante : [OK]
 # Autoriser les requetes DNS, FTP, HTTP, NTP (pour les mises a jour)
 #iptables -t filter -A OUTPUT -p tcp --dport 21 -j ACCEPT
 #iptables -t filter -A OUTPUT -p tcp --dport 80 -j ACCEPT
-#iptables -t filter -A OUTPUT -p udp --dport 53 -j ACCEPT
 #iptables -t filter -A OUTPUT -p udp --dport 123 -j ACCEPT
 #echo - Autoriser les requetes DNS, FTP, HTTP, NTP : [OK]
 
@@ -64,9 +63,16 @@ iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
 iptables -t filter -A INPUT -p tcp --dport 443 -j ACCEPT
 echo - Autoriser serveur http : [OK]
 
+iptables -t filter -A OUTPUT -p udp --dport 53 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 53 -j ACCEPT
+iptables -t filter -A INPUT -p udp --dport 53 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --dport 53 -j ACCEPT
+echo - Autoriser serveur DNS : [OK]
+
 # FTP
 iptables -t filter -A INPUT -p tcp --dport 20 -j ACCEPT
 iptables -t filter -A INPUT -p tcp --dport 21 -j ACCEPT
+iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 echo - Autoriser serveur FTP : [OK]
 
 # Mail
